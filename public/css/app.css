@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.red{
+    color: red;
+}
+
+.regist{
+    background-color: orange;
+}
+
+.info{
+    background-color: aqua;
+}
+
+.delete{
+color: white;
+background-color: red;
+}
