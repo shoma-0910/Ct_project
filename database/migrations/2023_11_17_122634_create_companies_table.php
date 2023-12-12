@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('representative_name');
 
             
-            $table->foreign('product_id')->references('id')->on('products');
+            // $table->foreign('product_id')->references('id')->on('products');
         });
     }
 

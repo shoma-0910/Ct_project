@@ -5,7 +5,7 @@
 <h1>商品新規登録画面</h1>
 
 <div class="outside">
-<form action="{{ route('registSubmit')}}" method="post" enctype="multipart/form-data" name="image_path">
+<form action="{{ route('registSubmit')}}" method="post" action="/registSubmit" enctype="multipart/form-data" name="image_path">
     @csrf
 
     <p>商品名<a class="red">*</a></p>
@@ -14,11 +14,31 @@
     <p>{{ $errors->first('product_name') }}</p>
     @endif
 
+
     <p>メーカー名<a class="red">*</a></p>
-    <input type="text" id="maker" name="maker" value="{{ old('maker') }}" />
-    @if($errors->has('maker'))
-    <p>{{ $errors->first('maker') }}</p>
-    @endif
+    <select name="companies_table"  name="product_name" >
+            @foreach($companies as $company)
+            <option value="" >
+                {{$company->company_name}}
+            </option>
+            @endforeach
+        </select>
+
+
+
+
+<p>メーカー名<a class="red">*</a></p>
+        <select name="companies_table" placeholder="メーカー名" name="product_name">
+            <option>メーカー名</option>
+            @foreach($products as $product)
+            <option value="" >
+                {{$product->company->company_name}}
+            </option>
+            @endforeach
+        </select>
+
+
+
 
     <p>価格<a class="red">*</a></p>
     <input type="text" id="price" name="price" value="{{ old('price') }}" />

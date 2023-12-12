@@ -2,19 +2,26 @@
 <h1>商品一覧画面</h1>
 
 <div class="outside">
-<form action="http://localhost:8888/Ct_project/public/search" method="GET">
+<form action="{{ route('search') }}" method="GET">
     @csrf
-  
-        <input type="text" name="keyword" placeholder="検索キーワード" />
-        <select name="products_table" placeholder="メーカー名">
+
+    <input type="text" name="keyword" placeholder="検索キーワード" />
+
+        <select name="companies_table" placeholder="メーカー名">
+            <option>メーカー名</option>
             @foreach($products as $product)
-            <option value="{{$product->id}}">
-                {{$product->id}}
+            <option value="" >
+                {{$product->company->company_name}}
             </option>
             @endforeach
         </select>
 
         <input type="submit" class="button" value="検索" />
+
+        </form>
+
+      
+
 
         <table class="table" style="width: 1000px; max-width: 0 auto;">
             <tr class="table-info">
@@ -24,18 +31,20 @@
                 <th scope="col">価格</th>
                 <th scope="col">在庫数</th>
                 <th scope="col">メーカー名</th>
+
                 <th>  <button type="button" class="regist" onclick="location.href='{{ route('new_product') }}'">新規登録</button></th>
             </tr>
-
+            <img src="storage/images/コーラ.jpg"width="100" height="100">
+            <img src="{{ asset('images/コーラ.jpg')}}" width="100" height="100">
             @foreach($products as $product)
             <tr>
                 <td>{{$product->id}}</td>
-                <td><img src="{{asset($product->image_path)}}" /></td>
+                <td><img src="{{asset($product->image_path)}}"></td>
                 <td>{{$product->product_name}}</td>
                 <td>{{$product->price}}</td>
                 <td>{{$product->stock}}</td>
-                <td>{{$product->maker}}</td>
-
+                <td>{{$product->company->company_name}}</td>
+              
                 <!-- 詳細 -->
                 <td>
                     <form action="{{ route('show', ['id'=>$product->id]) }}">
@@ -52,11 +61,12 @@
                     </form>
                 </td>
             </tr>
-
             @endforeach
+
         </table>
 
+        {!! $pages->render() !!}
 
-    {{ $pages->links() }} @endsection
+    @endsection
     </div>
-</form>
+

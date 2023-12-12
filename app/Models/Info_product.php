@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Models\Company;
 
 class Info_product extends Model
 {
     public function getList() {
-        // info_productsテーブルからデータを取得
-        $products = DB::table('products')->get();
+      
+        $products = self::with('company')->get();
 
         return $products;
     }

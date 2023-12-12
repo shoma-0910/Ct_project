@@ -13,18 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-      
+
             Schema::create('products', function (Blueprint $table) {
                 $table->Increments('id');
                 $table->string('product_name');
-                $table->string('maker');
                 $table->integer('price');
                 $table->integer('stock');
                 $table->string('comment')->nullable();
                 $table->string('image_path')->nullable();
                 $table->timestamps();
+                $table->Increments('company_id')->nullable();
         });
-    }  
+    }
 
     /**
      * Reverse the migrations.
@@ -34,5 +34,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('products');
+        $table->dropColumn('company_name');
     }
 };

@@ -51,13 +51,9 @@ Route::get('/info_product/{id?}',[App\Http\Controllers\ProductController::class,
 //削除
 Route::post('/destroy{id}', [ProductController::class, 'destroy'])->name('product.destroy');
 
-Route::get('/page', [App\Http\Controllers\ProductController::class, 'page_nation'])->name('page_nation');
-
 
 
 //商品新規登録画面
-//表示
-Route::get('/regist_product',[App\Http\Controllers\ProductController::class, 'showRegistForm'])->name('showRegist');
 //登録
 Route::post('/registSubmit',[App\Http\Controllers\ProductController::class, 'registSubmit'])->name('registSubmit');
 
@@ -65,11 +61,10 @@ Route::post('/registSubmit',[App\Http\Controllers\ProductController::class, 'reg
 
 
 //商品情報詳細画面
-
-
 Route::get('/edit_product/{id}', [App\Http\Controllers\ProductController::class, 'edit'])->name('edit');
 
-
+//表示
+Route::get('/info_product', [App\Http\Controllers\ProductController::class, 'showList'])->name('showList');
 
 //商品編集画面
 Route::get('/edit_product', [App\Http\Controllers\info_productController::class, 'showEdit_product'])->name('showEdit_product');
@@ -78,7 +73,7 @@ Route::get('/return_info', [App\Http\Controllers\info_productController::class, 
 
 
 //更新
-Route::put('/edit_product/{id}', [App\Http\Controllers\info_productController::class, 'update_product'])->name('update_product');
+Route::put('/edit_product/{id}', [App\Http\Controllers\ProductController::class, 'update_product'])->name('update_product');
 
 
 

@@ -25,7 +25,7 @@ class ProductRequest extends FormRequest
     {
         return [
             'product_name' => 'required | max:255',
-            'maker' => 'required | max:255',
+            
             'price' => 'required | max:255',
             'stock' => 'required | max:255',
         ];
@@ -36,7 +36,7 @@ class ProductRequest extends FormRequest
    {
        return [
         'product_name' => '商品名',
-        'maker' => 'メーカー名',
+       
         'price' => '価格',
         'stock' => '在庫数',
        ];
@@ -50,7 +50,7 @@ class ProductRequest extends FormRequest
    public function messages() {
        return [
            'product_name' => ':attributeは必須項目です。',
-           'maker' => ':attributeは必須項目です。',
+       
            'price' => ':attributeは必須項目です。',
            'stock' => ':attributeは必須項目です。',
        ];
