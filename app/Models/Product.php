@@ -11,6 +11,9 @@ use App\Models\Models\Company;
 
 class Product extends Model
 {
+
+    protected $fillable = ['product_name','price','stock','comment','image_path','company_id'];
+
     public function getList() {
         // productsテーブルからデータを取得
 
@@ -21,16 +24,17 @@ class Product extends Model
 
     }
 
-    public function registProduct($data,$image_path,$product_id) {
+    public function registProduct($data,$image_path) {
         // 登録処理
+
         DB::table('products')->insert([
 
             'product_name' => $data->product_name,
             'price' => $data->price,
             'stock' => $data->stock,
             'comment' => $data->comment,
-            'image_path' => $data->$image_path,
-            'product_id' => $data->$product_id
+            'image_path' => $image_path,
+            'company_id' => $data->companies_table
         ]);
 
 
@@ -44,7 +48,23 @@ class Product extends Model
 
 
 
-            protected $fillable = ['product_name'];
+
+
+
+            // 更新処理
+            public function update_product($data, $products, $image_path)
+            {
+               
+                $products= $products->fill([
+                 'product_name' => $data->product_name,
+                 'price' => $data->price,
+                 'stock' => $data->stock,
+                 'comment' => $data->comment,
+                 'image_path' => $image_path,
+                 'company_id' => $data->companies_table
+                ])->save();
+
+            }
 
 
 }

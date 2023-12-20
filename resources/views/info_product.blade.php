@@ -1,32 +1,53 @@
     @extends('layouts.user') @section('title', '商品詳細画面') @section('content')
-
+    <table class="table" style="width: 1000px; max-width: 0 auto;">
     <div class="outside">
     <h1>商品情報詳細画面</h1>
-
+ 
     @foreach($products as $product)
     @if($loop->first)
-    <p>ID</p>
+    <tr>
+    <td>ID</td>
     <td>{{$products->id}}</td>
-    <p>商品画像</p>
-    <td><img src="{{$products->image_path}}" /></td>
-    <p>商品名</p>
+    </tr>
+
+    <tr>
+    <td>商品画像</td>
+    <td><img src="{{asset($products->image_path)}}" width="50" height="50"></td>
+
+    <tr>
+    <td>商品名</td>
     <td>{{$products->product_name}}</td>
-    
+    </tr>
 
-    <p>メーカー名</p>
+    <tr>
+    <td>メーカー名</td>
     <td> {{$products->company->company_name}} </td>
+    </tr>
 
-    
-    <p>価格</p>
+    <tr>
+    <td>価格</td>
     <td>{{$products->price}}</td>
-    <p>在庫数</p>
+    </tr>
+
+    <tr>
+    <td>在庫数</td>
     <td>{{$products->stock}}</td>
-    <p>コメント</p>
+    </tr>
+
+    <tr>
+    <td>コメント</td>
     <td>{{$products->comment}}</td>
-   
+    </tr>
+    </table>
+
     <button class="regist" onclick="location.href='{{ route('edit', ['id' => $products->id]) }}' ">編集</button>
 
     <button class="info" onclick="location.href='{{ route('list') }}' ">戻る</button>
     @endif @endforeach
     @endsection
     </div>
+
+
+
+
+

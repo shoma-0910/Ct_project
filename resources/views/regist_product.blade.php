@@ -15,32 +15,20 @@
     @endif
 
 
-    <p>メーカー名<a class="red">*</a></p>
-    <select name="companies_table"  name="product_name" >
+
+
+<p>メーカー名<a class="red">*</a></p>
+        <select name="companies_table" placeholder="メーカー名" >
+            <option>メーカー名</option>
             @foreach($companies as $company)
-            <option value="" >
+            <option value="{{$company->id}}" >
                 {{$company->company_name}}
             </option>
             @endforeach
         </select>
 
 
-
-
-<p>メーカー名<a class="red">*</a></p>
-        <select name="companies_table" placeholder="メーカー名" name="product_name">
-            <option>メーカー名</option>
-            @foreach($products as $product)
-            <option value="" >
-                {{$product->company->company_name}}
-            </option>
-            @endforeach
-        </select>
-
-
-
-
-    <p>価格<a class="red">*</a></p>
+          <p>価格<a class="red">*</a></p>
     <input type="text" id="price" name="price" value="{{ old('price') }}" />
     @if($errors->has('price'))
     <p>{{ $errors->first('price') }}</p>

@@ -41,11 +41,10 @@ require __DIR__.'/auth.php';
 //表示
 Route::get('/product', [App\Http\Controllers\ProductController::class, 'showList'])->name('list');
 //検索
-Route::get('/search', [App\Http\Controllers\ProductController::class, 'product'])->name('search');
+Route::get('/search', [App\Http\Controllers\ProductController::class, 'search'])->name('search');
 //新規登録
 Route::get('/new_product', [App\Http\Controllers\ProductController::class, 'new_product'])->name('new_product');
 //ページネーション
-Route::get('/page', [App\Http\Controllers\ProductController::class, 'page_nation'])->name('page_nation');
 //詳細
 Route::get('/info_product/{id?}',[App\Http\Controllers\ProductController::class,'show'])->name('show');
 //削除
@@ -58,22 +57,14 @@ Route::post('/destroy{id}', [ProductController::class, 'destroy'])->name('produc
 Route::post('/registSubmit',[App\Http\Controllers\ProductController::class, 'registSubmit'])->name('registSubmit');
 
 
-
-
 //商品情報詳細画面
 Route::get('/edit_product/{id}', [App\Http\Controllers\ProductController::class, 'edit'])->name('edit');
 
-//表示
-Route::get('/info_product', [App\Http\Controllers\ProductController::class, 'showList'])->name('showList');
-
-//商品編集画面
-Route::get('/edit_product', [App\Http\Controllers\info_productController::class, 'showEdit_product'])->name('showEdit_product');
-
-Route::get('/return_info', [App\Http\Controllers\info_productController::class, 'return_info'])->name('return_info');
-
 
 //更新
-Route::put('/edit_product/{id}', [App\Http\Controllers\ProductController::class, 'update_product'])->name('update_product');
+Route::get('/update_product/{id}', [App\Http\Controllers\ProductController::class,'update_product'])->name('_update_product');
+Route::patch('/update_product/{id}', [App\Http\Controllers\ProductController::class, 'update_product'])->name('update_product');
+
 
 
 

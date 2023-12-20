@@ -20,9 +20,6 @@
 
         </form>
 
-      
-
-
         <table class="table" style="width: 1000px; max-width: 0 auto;">
             <tr class="table-info">
                 <th scope="col">id</th>
@@ -34,17 +31,17 @@
 
                 <th>  <button type="button" class="regist" onclick="location.href='{{ route('new_product') }}'">新規登録</button></th>
             </tr>
-            <img src="storage/images/コーラ.jpg"width="100" height="100">
-            <img src="{{ asset('images/コーラ.jpg')}}" width="100" height="100">
+
             @foreach($products as $product)
             <tr>
                 <td>{{$product->id}}</td>
-                <td><img src="{{asset($product->image_path)}}"></td>
+                <td><img src="{{asset($product->image_path)}}" width="50" height="50"></td>
+
                 <td>{{$product->product_name}}</td>
                 <td>{{$product->price}}</td>
                 <td>{{$product->stock}}</td>
                 <td>{{$product->company->company_name}}</td>
-              
+
                 <!-- 詳細 -->
                 <td>
                     <form action="{{ route('show', ['id'=>$product->id]) }}">
@@ -65,8 +62,9 @@
 
         </table>
 
-        {!! $pages->render() !!}
-
+        {{ $pages->links() }}
+   
     @endsection
+
     </div>
 

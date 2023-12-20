@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests\ProductRequest;
-use App\Http\Requests\CompanyRequest;
 use Illuminate\Support\Facades\DB;
-use App\Products;
 use App\Models\Models\Company;
-use Illuminate\Pagination\LengthAwarePaginator;
+
 
 
 class ProductController extends Controller
@@ -22,7 +20,7 @@ class ProductController extends Controller
         $products = $model->getList();
         $model = new Company();
         $companies = $model->getList_companies();
-        $pages = Product::paginate(5);
+        $pages = Product::paginate(3);
         $image_path = Product::all();
 
         return view('product', ['pages' => $pages, 'products' => $products, 'companies' => $companies, 'image_path' =>$image_path]
@@ -31,26 +29,25 @@ class ProductController extends Controller
     }
 
 
-
 // 検索
-public function product(Request $request)
-{    $pages = Product::paginate(5);
-    if (isset($request->keyword)) {
-        $products = Product::
-            where('product_name',  'LIKE',"%{$request->keyword}%")
+public function search(Request $request){
+        $pages = Product::paginate(3);
+        if (isset($request->keyword)) {
+            $products = Product::
+                where('product_name',  'LIKE',"%{$request->keyword}%")
 
-            ->get();
+                ->get();
+            }
+        else {
+            $products = Product::get();
         }
-    else {
-        $products = Product::get();
-    }
 
-    return view('product', [
-        'pages' => $pages,
-        'products' => $products,
-        'keyword' => $request->keyword
-    ]);
-}
+        return view('product', [
+            'pages' => $pages,
+            'products' => $products,
+            'keyword' => $request->keyword
+        ]);
+        }
 
 
 
@@ -79,7 +76,6 @@ public function product(Request $request)
     $products = $model->getList();
     $model = new Company();
     $companies = $model->getList_companies();
-  
 
     return view('regist_product',['products' => $products, 'companies' => $companies]);
 }
@@ -105,45 +101,25 @@ public function product(Request $request)
 
     // ディレクトリ名
     $dir = 'images';
-
     // アップロードされたファイル名を取得
     $file_name = $request->file('image_path')->getClientOriginalName();
-
    // トランザクション開始
    DB::beginTransaction();
    try {
        // 登録処理呼び出し
        $model = new Product();
-
-
         // 取得したファイル名で保存
     $request->file('image_path')->storeAs('public/' . $dir, $file_name);
-
     $image_path = 'storage/' . $dir . '/' . $file_name;
-
-
-
-
-    $company_name = $request->company_name;
-    $model->registProduct($request,$company_name,$image_path);
+    $model->registProduct($request,$image_path);
     DB::commit();
-
-
-
-
 } catch (\Exception $e) {
     DB::rollback();
     return back();
 }
 
-
-
-
-
-
-
     // 処理が完了したらregist_productにリダイレクト
-    return redirect(route('showRegist'));
+    return redirect(route('new_product'));
 
 }
 
@@ -153,42 +129,87 @@ public function product(Request $request)
     }
 
 
+    //商品情報編集画面
+    public function showEdit_product() {
 
-
-
-    public function edit(Request $request) {
-        $id = $request->id;
-        $products = Product::find($id);
-
+        $model = new Product();
+        $products = $model->getList();
         $model = new Company();
         $companies = $model->getList_companies();
+        $image_path = Product::all();
+        $company =Company::all();
 
-        return view('edit_product',['products' => $products,'companies' => $companies]);
+
+    $products = $model->getList();
+    return view('edit_product', ['company' => $company,'companies' => $companies, 'products' => $products, 'image_path' =>$image_path]);
     }
 
 
 
 
 
-        //更新
-        public function update_product(Request $request)
-        {
 
+
+    public function edit(Request $request) {
+        $id = $request->id;
+        $products = Product::find($id);
+        $model = new Company();
+        $companies = $model->getList_companies();
+        return view('edit_product',['products' => $products,'companies' => $companies]);
+    }
+
+
+
+     //更新
+     public function update_product(ProductRequest $request, $id)
+     {   
+        // ディレクトリ名
+        $dir = 'images';
+        // アップロードされたファイル名を取得
+        $image= $request->file('image_path');
+              // トランザクション開始
+        DB::beginTransaction();
+        try {
+            $products = Product::find($id);
+            if($image){
+
+                
+                $file_name = $image->getClientOriginalName();
+                  // 取得したファイル名で保存
+                $request->file('image_path')->storeAs('public/' . $dir, $file_name);
+                $image_path = 'storage/' . $dir . '/' . $file_name;
+              
+                $products->update([
+                    'product_name' => $request->product_name,
+                    'price' => $request->price,
+                    'stock' => $request->stock,
+                    "comment" => $request->comment,
+                    'image_path' => $image_path,
+                    'company_id' => $request->companies_table
+                ]);  
+            }else{
             
-            $products = Product::findOrFail($request->id);
-            $products->update([
-              "product_name" => $request->product_name,
-              "price" => $request->price,
-              "stock" => $request->stock,
-              "comment" => $request->comment,
-              "image_path" => $request->image_path,
-            ]);
+                $products->update([
+                    'product_name' => $request->product_name,
+                    'price' => $request->price,
+                    'stock' => $request->stock,
+                    "comment" => $request->comment,
 
-          return redirect()->route('edit_product', ['id' => $products->id]);
-
+                    'companies_table' => $request->companies_table
+                ]);
+            }
+         
+        DB::commit();
+        } catch (\Exception $e) {
+        DB::rollback();
+        return back();
         }
 
-}
+         return redirect()->route('update_product', ['id' => $products->id]);
+
+     }
+
+ }
 
 
 
