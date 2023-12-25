@@ -1,7 +1,6 @@
-//delete
 <x-guest-layout>
 <h1>ユーザー新規登録画面</h1>
-    <form method="POST" action="{{ route('register') }}">
+   <form method="POST" action="{{ route('register') }}">
         @csrf
 
 
@@ -52,15 +51,12 @@
             <x-primary-button class="ml-4" >
                 {{ __('新規登録') }}
             </x-primary-button>
-        
-   
 
 
- 
     <x-primary-button class="ml-4" onclick="location.href='http://localhost:8888/Ct_project/public/login'">
                 {{ __('戻る') }}
             </x-primary-button>
-   
+
     </div>
     </form>
 </x-guest-layout>

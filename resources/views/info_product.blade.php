@@ -2,7 +2,7 @@
     <table class="table" style="width: 1000px; max-width: 0 auto;">
     <div class="outside">
     <h1>商品情報詳細画面</h1>
- 
+
     @foreach($products as $product)
     @if($loop->first)
     <tr>

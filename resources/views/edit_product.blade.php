@@ -25,7 +25,7 @@
 
     <p>商品名<a class="red">*</a></p>
     <input type="text" id="product_name" name="product_name" value="{{$products->product_name}}">
-    
+
 
     <p>メーカー名<a class="red">*</a></p>
         <select name="companies_table"  value="{{$products->companies_table}}">
@@ -59,7 +59,6 @@
     <p>商品画像</p>
     <input type="file" id="image_path" name="image_path" value="{{$products->image_path}}}}" />
 
-    
 
 <button type="submit" class="regist">更新</button>
               <button type="button" class="info" onClick="history.back()">戻る</button>

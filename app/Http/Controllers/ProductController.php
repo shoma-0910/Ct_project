@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\DB;
-use App\Models\Models\Company;
-
+use App\Models\Company;
+use Illuminate\Pagination\Paginator;
 
 
 class ProductController extends Controller
@@ -29,27 +29,27 @@ class ProductController extends Controller
     }
 
 
+
 // 検索
 public function search(Request $request){
-        $pages = Product::paginate(3);
-        if (isset($request->keyword)) {
-            $products = Product::
-                where('product_name',  'LIKE',"%{$request->keyword}%")
+    $pages = Product::paginate(3);
+    $categoryId = $request->companies_name;
+    $model = new Product();
+    $products = $model->getList();
+    if (isset($categoryId)) {
+        $categoryId = Product::where('category_id', $categoryId)->get();
+     } else {
+        $categoryId = Product::get();
+    return view('product', [
+        'pages' => $pages,
+        'categoryId' => $categoryId,
+        'products' => $products,
+    ]);
+    }
+}
 
-                ->get();
-            }
-        else {
-            $products = Product::get();
-        }
-
-        return view('product', [
-            'pages' => $pages,
-            'products' => $products,
-            'keyword' => $request->keyword
-        ]);
-        }
-
-
+ 
+     
 
   // product から info_product へ 詳細
     public function info_product() {
@@ -113,10 +113,10 @@ public function search(Request $request){
     $image_path = 'storage/' . $dir . '/' . $file_name;
     $model->registProduct($request,$image_path);
     DB::commit();
-} catch (\Exception $e) {
-    DB::rollback();
-    return back();
-}
+    } catch (\Exception $e) {
+        DB::rollback();
+        return back();
+    }
 
     // 処理が完了したらregist_productにリダイレクト
     return redirect(route('new_product'));
@@ -145,11 +145,6 @@ public function search(Request $request){
     }
 
 
-
-
-
-
-
     public function edit(Request $request) {
         $id = $request->id;
         $products = Product::find($id);
@@ -162,7 +157,7 @@ public function search(Request $request){
 
      //更新
      public function update_product(ProductRequest $request, $id)
-     {   
+     {
         // ディレクトリ名
         $dir = 'images';
         // アップロードされたファイル名を取得
@@ -172,13 +167,10 @@ public function search(Request $request){
         try {
             $products = Product::find($id);
             if($image){
-
-                
-                $file_name = $image->getClientOriginalName();
+               $file_name = $image->getClientOriginalName();
                   // 取得したファイル名で保存
                 $request->file('image_path')->storeAs('public/' . $dir, $file_name);
                 $image_path = 'storage/' . $dir . '/' . $file_name;
-              
                 $products->update([
                     'product_name' => $request->product_name,
                     'price' => $request->price,
@@ -186,9 +178,8 @@ public function search(Request $request){
                     "comment" => $request->comment,
                     'image_path' => $image_path,
                     'company_id' => $request->companies_table
-                ]);  
+                ]);
             }else{
-            
                 $products->update([
                     'product_name' => $request->product_name,
                     'price' => $request->price,
@@ -198,7 +189,7 @@ public function search(Request $request){
                     'companies_table' => $request->companies_table
                 ]);
             }
-         
+
         DB::commit();
         } catch (\Exception $e) {
         DB::rollback();

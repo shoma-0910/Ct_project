@@ -7,7 +7,7 @@
 
     <input type="text" name="keyword" placeholder="検索キーワード" />
 
-        <select name="companies_table" placeholder="メーカー名">
+    <select name="companies_table" placeholder="メーカー名">
             <option>メーカー名</option>
             @foreach($products as $product)
             <option value="" >
@@ -15,7 +15,7 @@
             </option>
             @endforeach
         </select>
-
+        
         <input type="submit" class="button" value="検索" />
 
         </form>
@@ -63,7 +63,7 @@
         </table>
 
         {{ $pages->links() }}
-   
+
     @endsection
 
     </div>

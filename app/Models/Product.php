@@ -6,8 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Models\Company;
-
+use App\Models\Company;
+use App\Models\Sale;
 
 class Product extends Model
 {
@@ -40,21 +40,25 @@ class Product extends Model
 
     }
 
-        //リレーション
-        public function company()
-        {
-            return $this->belongsTo(Company::class);
-        }
+            //リレーション
+            public function company()
+            {
+                return $this->belongsTo(Company::class);
+            }
 
 
-
+            //saleリレーション
+            public function sale()
+            {
+                return $this->hasMany(Sale::class);
+            }
 
 
 
             // 更新処理
             public function update_product($data, $products, $image_path)
             {
-               
+
                 $products= $products->fill([
                  'product_name' => $data->product_name,
                  'price' => $data->price,
