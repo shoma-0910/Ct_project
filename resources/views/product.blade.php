@@ -10,12 +10,12 @@
     <select name="companies_table" placeholder="メーカー名">
             <option>メーカー名</option>
             @foreach($products as $product)
-            <option value="" >
+            <option value="{{ $product->company->id }}" >
                 {{$product->company->company_name}}
             </option>
             @endforeach
         </select>
-        
+
         <input type="submit" class="button" value="検索" />
 
         </form>

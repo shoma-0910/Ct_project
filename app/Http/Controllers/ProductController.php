@@ -33,23 +33,29 @@ class ProductController extends Controller
 // 検索
 public function search(Request $request){
     $pages = Product::paginate(3);
-    $categoryId = $request->companies_name;
-    $model = new Product();
-    $products = $model->getList();
-    if (isset($categoryId)) {
-        $categoryId = Product::where('category_id', $categoryId)->get();
-     } else {
-        $categoryId = Product::get();
+    if (isset($request->keyword)) {
+        $products = Product::
+            where('product_name',  'LIKE',"%{$request->keyword}%")
+
+            ->get();
+        }
+        elseif (isset($request->companies_table)) {
+            $products = Product::
+                where('company_id',  'LIKE',"%{$request->companies_table}%")
+
+                ->get();
+            }
+    else {
+        $products = Product::get();
+    }
+
     return view('product', [
         'pages' => $pages,
-        'categoryId' => $categoryId,
         'products' => $products,
+        'keyword' => $request->keyword
     ]);
     }
-}
 
- 
-     
 
   // product から info_product へ 詳細
     public function info_product() {
