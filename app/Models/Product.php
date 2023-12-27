@@ -40,37 +40,37 @@ class Product extends Model
 
     }
 
-            //リレーション
-            public function company()
-            {
-                return $this->belongsTo(Company::class);
-            }
+    //リレーション
+    public function company() {
+
+        return $this->belongsTo(Company::class);
+
+    }
 
 
-            //saleリレーション
-            public function sale()
-            {
-                return $this->hasMany(Sale::class);
-            }
+    //saleリレーション
+    public function sale(){
+
+        return $this->hasMany(Sale::class);
+
+    }
 
 
 
-            // 更新処理
-            public function update_product($data, $products, $image_path)
-            {
+    // 更新処理
+    public function update_product($data, $products, $image_path){
 
-                $products= $products->fill([
-                 'product_name' => $data->product_name,
-                 'price' => $data->price,
-                 'stock' => $data->stock,
-                 'comment' => $data->comment,
-                 'image_path' => $image_path,
-                 'company_id' => $data->companies_table
-                ])->save();
+        $products= $products->fill([
+            'product_name' => $data->product_name,
+            'price' => $data->price,
+            'stock' => $data->stock,
+            'comment' => $data->comment,
+            'image_path' => $image_path,
+            'company_id' => $data->companies_table
+        ])->save();
 
-            }
+    }
 
 
 }
-
 

@@ -48,7 +48,7 @@ Route::get('/new_product', [App\Http\Controllers\ProductController::class, 'new_
 //詳細
 Route::get('/info_product/{id?}',[App\Http\Controllers\ProductController::class,'show'])->name('show');
 //削除
-Route::post('/destroy{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+Route::post('/destroy{id}', [ProductController::class, 'destroy'])->name('destroy');
 
 
 

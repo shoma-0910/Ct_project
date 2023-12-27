@@ -14,7 +14,7 @@ use Illuminate\Pagination\Paginator;
 class ProductController extends Controller
 {
     // 表示
-    public function showList() {
+    public function showList(){
         // インスタンス生成
         $model = new Product();
         $products = $model->getList();
@@ -25,39 +25,39 @@ class ProductController extends Controller
 
         return view('product', ['pages' => $pages, 'products' => $products, 'companies' => $companies, 'image_path' =>$image_path]
 
-    );
+     );
+     }
+
+
+
+    // 検索
+    public function search(Request $request){
+        $pages = Product::paginate(3);
+            if(isset($request->keyword)) {
+                $products = Product::
+                    where('product_name',  'LIKE',"%{$request->keyword}%")
+
+                    ->get();
+                }
+                elseif(isset($request->companies_table)) {
+                    $products = Product::
+                        where('company_id',  'LIKE',"%{$request->companies_table}%")
+
+                        ->get();
+                    }
+                else{
+                    $products = Product::get();
+                }
+
+            return view('product', [
+                'pages' => $pages,
+                'products' => $products,
+                'keyword' => $request->keyword
+            ]);
     }
 
 
-
-// 検索
-public function search(Request $request){
-    $pages = Product::paginate(3);
-    if (isset($request->keyword)) {
-        $products = Product::
-            where('product_name',  'LIKE',"%{$request->keyword}%")
-
-            ->get();
-        }
-        elseif (isset($request->companies_table)) {
-            $products = Product::
-                where('company_id',  'LIKE',"%{$request->companies_table}%")
-
-                ->get();
-            }
-    else {
-        $products = Product::get();
-    }
-
-    return view('product', [
-        'pages' => $pages,
-        'products' => $products,
-        'keyword' => $request->keyword
-    ]);
-    }
-
-
-  // product から info_product へ 詳細
+    //product から info_product へ 詳細
     public function info_product() {
         $model = new Company();
         $companies = $model->getList_companies();
@@ -65,26 +65,39 @@ public function search(Request $request){
     }
 
 
-     // 削除
-     public function destroy($id)
-     {
-         // Productテーブルから指定のIDのレコード1件を取得
-         $product = Product::find($id);
-         // レコードを削除
-         $product->delete();
-         // 削除したら一覧画面にリダイレクト
-         return redirect()->route('list');
-     }
 
-  // product から regist_product へ 登録
-  public function new_product() {
-    $model = new Product();
-    $products = $model->getList();
-    $model = new Company();
-    $companies = $model->getList_companies();
+    //削除
+    public function destroy($id){
+        try {
+            // トランザクション開始
+            DB::beginTransaction();
+            // 削除する
+            $product = Product::findOrFail($id);
+            // レコードを強制的に削除
+            $product->delete($id);
 
-    return view('regist_product',['products' => $products, 'companies' => $companies]);
-}
+
+            // 処理に成功したらコミット
+            DB::commit();
+        } catch (\Throwable $e) {
+            // 処理に失敗したらロールバック
+            DB::rollback();
+
+        }
+        return back();
+
+    }
+
+
+    // product から regist_product へ 登録
+    public function new_product() {
+        $model = new Product();
+        $products = $model->getList();
+        $model = new Company();
+        $companies = $model->getList_companies();
+
+        return view('regist_product',['products' => $products, 'companies' => $companies]);
+    }
 
 
     //詳細
@@ -102,32 +115,31 @@ public function search(Request $request){
 
 
 
-   // 新規登録
-   public function registSubmit(ProductRequest $request) {
-
-    // ディレクトリ名
-    $dir = 'images';
-    // アップロードされたファイル名を取得
-    $file_name = $request->file('image_path')->getClientOriginalName();
-   // トランザクション開始
-   DB::beginTransaction();
-   try {
-       // 登録処理呼び出し
-       $model = new Product();
-        // 取得したファイル名で保存
-    $request->file('image_path')->storeAs('public/' . $dir, $file_name);
-    $image_path = 'storage/' . $dir . '/' . $file_name;
-    $model->registProduct($request,$image_path);
-    DB::commit();
-    } catch (\Exception $e) {
-        DB::rollback();
-        return back();
+    // 新規登録
+    public function registSubmit(ProductRequest $request) {
+        // ディレクトリ名
+        $dir = 'images';
+        // アップロードされたファイル名を取得
+        $file_name = $request->file('image_path')->getClientOriginalName();
+        // トランザクション開始
+        DB::beginTransaction();
+        try {
+        // 登録処理呼び出し
+        $model = new Product();
+            // 取得したファイル名で保存
+        $request->file('image_path')->storeAs('public/' . $dir, $file_name);
+        $image_path = 'storage/' . $dir . '/' . $file_name;
+        $model->registProduct($request,$image_path);
+        DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back();
     }
 
     // 処理が完了したらregist_productにリダイレクト
     return redirect(route('new_product'));
 
-}
+    }
 
     // regist_productから productへ
     public function back_product() {
@@ -207,7 +219,3 @@ public function search(Request $request){
      }
 
  }
-
-
-
-

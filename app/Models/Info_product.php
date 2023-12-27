@@ -10,7 +10,7 @@ use App\Models\Company;
 class Info_product extends Model
 {
     public function getList() {
-      
+
         $products = self::with('company')->get();
 
         return $products;

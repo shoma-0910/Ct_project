@@ -20,9 +20,10 @@ class Company extends Model
 
 
 
-           //リレーション
-           public function product()
-           {
-               return $this->hasMany(Product::class);
-           }
+        //リレーション
+        public function product() {
+
+            return $this->hasMany(Product::class);
+
+        }
 }

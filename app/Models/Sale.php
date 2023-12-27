@@ -9,20 +9,18 @@ use App\Models\Product;
 
 class Sale extends Model
 {
-
-
-    
     public function getList_sales() {
         // productsテーブルからデータを取得
         $sales = DB::table('sales')->get();
 
         return $sales;
-    }
+     }
 
 
 
-    public function Product()
-    {
+     public function Product() {
+
         return $this->belongsTo(Product::class);
+
     }
 }

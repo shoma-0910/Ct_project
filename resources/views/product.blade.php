@@ -52,7 +52,7 @@
 
                 <!-- 削除 -->
                 <td>
-                    <form action="{{ route('product.destroy', ['id'=>$product->id]) }}" method="POST">
+                    <form action="{{ route('destroy', ['id'=>$product->id]) }}" method="POST">
                         @csrf
                         <button type="submit" class="delete">削除</button>
                     </form>
