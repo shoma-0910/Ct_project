@@ -20,7 +20,7 @@ class ProductController extends Controller
         $products = $model->getList();
         $model = new Company();
         $companies = $model->getList_companies();
-        $pages = Product::paginate(3);
+        $pages = Product::orderBy('created_at')->paginate(2);
         $image_path = Product::all();
 
         return view('product', ['pages' => $pages, 'products' => $products, 'companies' => $companies, 'image_path' =>$image_path]
@@ -75,15 +75,13 @@ class ProductController extends Controller
             $product = Product::findOrFail($id);
             // レコードを強制的に削除
             $product->delete($id);
-
-
             // 処理に成功したらコミット
             DB::commit();
         } catch (\Throwable $e) {
             // 処理に失敗したらロールバック
             DB::rollback();
-
         }
+
         return back();
 
     }
@@ -107,9 +105,9 @@ class ProductController extends Controller
         $products = Product::find($id);
         $model = new Company();
         $companies = $model->getList_companies();
-
         $company_name = $request->company_name;
         $companies = Company::find($company_name);
+
         return view('info_product',['products' => $products,'companies' => $companies]);
     }
 
@@ -138,8 +136,8 @@ class ProductController extends Controller
 
     // 処理が完了したらregist_productにリダイレクト
     return redirect(route('new_product'));
-
     }
+
 
     // regist_productから productへ
     public function back_product() {
@@ -156,9 +154,8 @@ class ProductController extends Controller
         $companies = $model->getList_companies();
         $image_path = Product::all();
         $company =Company::all();
+        $products = $model->getList();
 
-
-    $products = $model->getList();
     return view('edit_product', ['company' => $company,'companies' => $companies, 'products' => $products, 'image_path' =>$image_path]);
     }
 
@@ -203,11 +200,9 @@ class ProductController extends Controller
                     'price' => $request->price,
                     'stock' => $request->stock,
                     "comment" => $request->comment,
-
                     'companies_table' => $request->companies_table
                 ]);
             }
-
         DB::commit();
         } catch (\Exception $e) {
         DB::rollback();

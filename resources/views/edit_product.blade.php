@@ -15,16 +15,16 @@
 @csrf
 @method('PATCH')
     <tr>
-    <td>ID</td>
-    @foreach($products as $product)
-    @if($loop->first)
-    <td>{{$products->id}}</td>
-    @endif @endforeach
+        <td>ID</td>
+        @foreach($products as $product)
+            @if($loop->first)
+                <td>{{$products->id}}</td>
+        @endif @endforeach
     </tr>
 
 
     <p>商品名<a class="red">*</a></p>
-    <input type="text" id="product_name" name="product_name" value="{{$products->product_name}}">
+        <input type="text" id="product_name" name="product_name" value="{{$products->product_name}}">
 
 
     <p>メーカー名<a class="red">*</a></p>
@@ -60,8 +60,10 @@
     <input type="file" id="image_path" name="image_path" value="{{$products->image_path}}}}" />
 
 
-<button type="submit" class="regist">更新</button>
-              <button type="button" class="info" onClick="history.back()">戻る</button>
+            <button type="submit" class="regist">更新</button>
+            <button type="button" class="info" onClick="history.back()">戻る</button>
+
+
 </form>
 
 

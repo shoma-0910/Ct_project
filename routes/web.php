@@ -44,12 +44,12 @@ Route::get('/product', [App\Http\Controllers\ProductController::class, 'showList
 Route::get('/search', [App\Http\Controllers\ProductController::class, 'search'])->name('search');
 //新規登録
 Route::get('/new_product', [App\Http\Controllers\ProductController::class, 'new_product'])->name('new_product');
-//ページネーション
+
 //詳細
 Route::get('/info_product/{id?}',[App\Http\Controllers\ProductController::class,'show'])->name('show');
+
 //削除
 Route::post('/destroy{id}', [ProductController::class, 'destroy'])->name('destroy');
-
 
 
 //商品新規登録画面
@@ -64,8 +64,6 @@ Route::get('/edit_product/{id}', [App\Http\Controllers\ProductController::class,
 //更新
 Route::get('/update_product/{id}', [App\Http\Controllers\ProductController::class,'update_product'])->name('_update_product');
 Route::patch('/update_product/{id}', [App\Http\Controllers\ProductController::class, 'update_product'])->name('update_product');
-
-
 
 
 
