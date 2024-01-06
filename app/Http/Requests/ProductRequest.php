@@ -27,7 +27,7 @@ class ProductRequest extends FormRequest
             'product_name' => 'required | max:255',
             'price' => 'required | max:255',
             'stock' => 'required | max:255',
-            'companies_table' => 'required | max:255',
+            'company_name' => 'required | max:255',
             'comment' => 'required | max:255',
             'image_path' => 'required',
 
@@ -40,7 +40,7 @@ class ProductRequest extends FormRequest
         'product_name' => '商品名',
         'price' => '価格',
         'stock' => '在庫数',
-        'companies_table' => 'メーカー名',
+        'company_name' => 'メーカー名',
         'comment' => 'コメント',
         'image_path' => 'コメント',
        ];
@@ -56,7 +56,7 @@ class ProductRequest extends FormRequest
            'product_name' => ':attributeは必須項目です。',
            'price' => ':attributeは必須項目です。',
            'stock' => ':attributeは必須項目です。',
-           'companies_table' => ':attributeは必須項目です。',
+           'company_name' => ':attributeは必須項目です。',
            'comment' => ':attributeは必須項目です。',
            'image_path' => ':attributeは必須項目です。'
        ];

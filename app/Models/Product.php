@@ -34,7 +34,7 @@ class Product extends Model
             'stock' => $data->stock,
             'comment' => $data->comment,
             'image_path' => $image_path,
-            'company_id' => $data->companies_table
+            'company_id' => $data->company_name
         ]);
 
 
@@ -66,7 +66,7 @@ class Product extends Model
             'stock' => $data->stock,
             'comment' => $data->comment,
             'image_path' => $image_path,
-            'company_id' => $data->companies_table
+            'company_id' => $data->company_name
         ])->save();
 
     }

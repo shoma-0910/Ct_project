@@ -39,9 +39,9 @@ class ProductController extends Controller
 
                     ->get();
                 }
-                elseif(isset($request->companies_table)) {
+                elseif(isset($request->company_name)) {
                     $products = Product::
-                        where('company_id',  'LIKE',"%{$request->companies_table}%")
+                        where('company_id',  'LIKE',"%{$request->company_name}%")
 
                         ->get();
                     }
@@ -192,7 +192,7 @@ class ProductController extends Controller
                     'stock' => $request->stock,
                     "comment" => $request->comment,
                     'image_path' => $image_path,
-                    'company_id' => $request->companies_table
+                    'company_id' => $request->company_name
                 ]);
             }else{
                 $products->update([
@@ -200,7 +200,7 @@ class ProductController extends Controller
                     'price' => $request->price,
                     'stock' => $request->stock,
                     "comment" => $request->comment,
-                    'companies_table' => $request->companies_table
+                    'companies_id' => $request->company_name
                 ]);
             }
         DB::commit();

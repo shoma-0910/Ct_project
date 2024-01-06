@@ -28,8 +28,8 @@
 
 
     <p>メーカー名<a class="red">*</a></p>
-        <select name="companies_table"  value="{{$products->companies_table}}">
-            <option></option>
+        <select name="company_name  value="{{$products->company_name}}">
+
             @foreach($companies as $company)
             <option value="{{$company->id}}" >
                 {{$company->company_name}}
@@ -65,11 +65,7 @@
 
 
 </form>
-
-
 </div>
-
-
 @endsection
 
 

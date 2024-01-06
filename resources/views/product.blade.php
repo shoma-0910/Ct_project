@@ -7,10 +7,10 @@
 
     <input type="text" name="keyword" placeholder="検索キーワード" />
 
-    <select name="companies_table" placeholder="メーカー名">
+    <select name="company_name" placeholder="メーカー名">
             <option>メーカー名</option>
             @foreach($products as $product)
-            <option value="{{ $product->company->id }}" >
+            <option value="{{ $product->company->company_name }}" >
                 {{$product->company->company_name}}
             </option>
             @endforeach
@@ -28,7 +28,6 @@
                 <th scope="col">価格</th>
                 <th scope="col">在庫数</th>
                 <th scope="col">メーカー名</th>
-
                 <th>  <button type="button" class="regist" onclick="location.href='{{ route('new_product') }}'">新規登録</button></th>
             </tr>
 
@@ -63,8 +62,8 @@
         </table>
 
         {{ $pages->links() }}
-
+        </div>
     @endsection
 
-    </div>
+
 

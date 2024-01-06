@@ -5,7 +5,7 @@
 <h1>商品新規登録画面</h1>
 
 <div class="outside">
-<form action="{{ route('registSubmit')}}" method="post" action="/registSubmit" enctype="multipart/form-data" name="image_path">
+<form action="{{ route('registSubmit')}}" method="post" enctype="multipart/form-data" name="image_path">
     @csrf
 
     <p>商品名<a class="red">*</a></p>
@@ -18,7 +18,7 @@
 
 
 <p>メーカー名<a class="red">*</a></p>
-        <select name="companies_table" placeholder="メーカー名" >
+        <select name="company_name" placeholder="メーカー名" >
             <option>メーカー名</option>
             @foreach($companies as $company)
             <option value="{{$company->id}}" >
@@ -51,8 +51,8 @@
 
         <button type="button" class="info" onclick="location.href='{{ route('list') }}'">戻る</button>
     </div>
-
+    </form>
     @endsection
-</form>
+
 
 </div>
