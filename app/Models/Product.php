@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Company;
 use App\Models\Sale;
 
+
 class Product extends Model
 {
 
