@@ -61,9 +61,9 @@
 
         </table>
 
-        {{ $pages->links() }}
-        </div>
-    @endsection
+{{ $pages->links() }}
+</div>
+@endsection
 
 
 

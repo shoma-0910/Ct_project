@@ -63,9 +63,9 @@
             <button type="submit" class="regist">更新</button>
             <button type="button" class="info" onClick="history.back()">戻る</button>
 
-
-</form>
 </div>
 @endsection
+</form>
+
 
 

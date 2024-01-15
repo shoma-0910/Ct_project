@@ -51,8 +51,9 @@
 
         <button type="button" class="info" onclick="location.href='{{ route('list') }}'">戻る</button>
     </div>
-    </form>
-    @endsection
+@endsection
+</form>
+
 
 
 </div>

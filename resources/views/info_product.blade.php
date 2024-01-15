@@ -44,9 +44,9 @@
         <button class="regist" onclick="location.href='{{ route('edit', ['id' => $products->id]) }}' ">編集</button>
 
         <button class="info" onclick="location.href='{{ route('list') }}' ">戻る</button>
-        @endif @endforeach
-        </div>
-        @endsection
+    @endif @endforeach
+    </div>
+    @endsection
 
 
 
