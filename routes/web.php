@@ -49,7 +49,7 @@ Route::get('/new_product', [App\Http\Controllers\ProductController::class, 'new_
 Route::get('/info_product/{id?}',[App\Http\Controllers\ProductController::class,'show'])->name('show');
 
 //削除
-Route::post('/destroy{id}', [ProductController::class, 'destroy'])->name('destroy');
+Route::post('/destroy/{id}', [ProductController::class, 'destroy'])->name('destroy');
 
 
 //商品新規登録画面
@@ -67,3 +67,4 @@ Route::patch('/update_product/{id}', [App\Http\Controllers\ProductController::cl
 
 
 
+Route::get('/user/index/{name}', 'UserController@getUsersBySearchName'); // url: '/user/index/' + userNameと同じ

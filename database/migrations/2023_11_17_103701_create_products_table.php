@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->string('comment')->nullable();
                 $table->string('image_path')->nullable();
                 $table->timestamps();
-                $table->Increments('company_id')->nullable();
+                $table->integer('company_id')->nullable();
         });
     }
 
@@ -34,6 +34,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('products');
-        $table->dropColumn('company_name');
+        $table->dropColumn('company_id');
     }
 };

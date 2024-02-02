@@ -9,6 +9,7 @@ use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company;
 use Illuminate\Pagination\Paginator;
+use App\Models\Sale;
 
 
 class ProductController extends Controller
@@ -29,32 +30,54 @@ class ProductController extends Controller
      }
 
 
+// 検索
+public function search(Request $request){
+    $pages = Product::paginate(3);
+    $query = Product::query();
+    $keyword = $request -> input('keyword');
+    $company_id = $request -> input('company_id');
+    $minPrice = $request -> input('minPrice');
+    $maxPrice = $request -> input('maxPrice');
+    $minStock = $request -> input('minStock');
+    $maxStock = $request -> input('maxStock');
+    $companies = Company::all(); 
+    if($keyword){
+        $query -> where('product_name','LIKE',"%{$keyword}%");
+    };
 
-    // 検索
-    public function search(Request $request){
-        $pages = Product::paginate(3);
-            if(isset($request->keyword)) {
-                $products = Product::
-                    where('product_name',  'LIKE',"%{$request->keyword}%")
+    if($company_id){
+        $query -> where('company_id',"=", $company_id);
+    };
 
-                    ->get();
-                }
-                elseif(isset($request->company_name)) {
-                    $products = Product::
-                        where('company_id',  'LIKE',"%{$request->company_name}%")
+    if($minPrice){
+        $query -> where('price', '>=', $minPrice);
+    };
 
-                        ->get();
-                    }
-                else{
-                    $products = Product::get();
-                }
+    if($maxPrice){
+        $query -> where('price', '<=', $maxPrice);
+    };
 
-            return view('product', [
-                'pages' => $pages,
-                'products' => $products,
-                'keyword' => $request->keyword
-            ]);
-    }
+    if($minStock){
+        $query -> where('stock', '>=', $minStock);
+    };
+
+    if($maxStock){
+        $query -> where('stock', '<=', $maxStock);
+    };
+
+    $products = $query -> get();
+
+    return view('product', [
+        'companies' => $companies,
+        'pages' => $pages,
+        'products' => $products,
+        'company_id' => $request->company_id,
+        'keyword' => $request->keyword,
+        'minPrice' => $request->minPrice,
+        'maxPrice' => $request->maxPrice,
+        'minStock' => $request->minStock,
+        'maxStock' => $request->maxStock]);
+}
 
 
     //product から info_product へ 詳細
@@ -67,24 +90,12 @@ class ProductController extends Controller
 
 
     //削除
-    public function destroy($id){
-        try {
-            // トランザクション開始
-            DB::beginTransaction();
-            // 削除する
-            $product = Product::findOrFail($id);
-            // レコードを強制的に削除
-            $product->delete($id);
-            // 処理に成功したらコミット
-            DB::commit();
-        } catch (\Throwable $e) {
-            // 処理に失敗したらロールバック
-            DB::rollback();
-        }
-
+    public function destroy(Request $request, Product $product){
+        $product = Product::findOrFail($request->id);
+        $product->delete();
         return back();
-
     }
+
 
 
     // product から regist_product へ 登録
@@ -214,3 +225,6 @@ class ProductController extends Controller
      }
 
  }
+
+
+

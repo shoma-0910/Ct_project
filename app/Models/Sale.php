@@ -23,4 +23,7 @@ class Sale extends Model
         return $this->belongsTo(Product::class);
 
     }
+
+
+protected $fillable = ['product_id', 'quantity'];
 }

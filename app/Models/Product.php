@@ -13,7 +13,7 @@ use App\Models\Sale;
 class Product extends Model
 {
 
-    protected $fillable = ['product_name','price','stock','comment','image_path','company_id'];
+    protected $fillable = ['product_name','price','stock','comment','image_path','company_name'];
 
     public function getList() {
         // productsテーブルからデータを取得
@@ -73,5 +73,7 @@ class Product extends Model
     }
 
 
+
+   
 }
 
